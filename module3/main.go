@@ -6,8 +6,10 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
+var started = time.Now()
 
 func index(w http.ResponseWriter, r *http.Request) {
 
@@ -42,12 +44,28 @@ func healthz(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 }
 
+// 当访问 localhost/healthz10
+func healthz10(w http.ResponseWriter, r *http.Request) {
+	// code aus kubernetes.io
+	duration := time.Now().Sub(started)
+	// at the first 10 second, status ok
+	// then, error
+	if duration.Seconds() > 10 {
+		w.WriteHeader(500)
+		w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
+	} else {
+		w.WriteHeader(200)
+		w.Write([]byte("Status OK!"))
+	}
+}
+
 func main() {
 
 	mux := http.NewServeMux() //声明多路复用mux对象
 	// use mux.HandleFunc define routing
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/healthz", healthz)
+	mux.HandleFunc("/healthz10", healthz10)
 
 	http.ListenAndServe("0.0.0.0:8080", mux)
 
