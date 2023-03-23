@@ -6,3 +6,5 @@ v2:
 	docker build -f Dockerfile2 -t roads001/httpserver:v2 .	
 pushv2:
 	docker push roads001/httpserver:v2
+run:
+	docker container run --rm -d -p8080:8080 roads001/httpserver:v2
