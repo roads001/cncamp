@@ -20,6 +20,8 @@ spec:
       containers:
       - name: httpserver
         image: roads001/httpserver:v2
+        #imagePullPolicy: IfNotPresent default
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:
