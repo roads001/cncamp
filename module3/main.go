@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
@@ -69,7 +70,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	remoteIP := strings.Split(r.RemoteAddr, ":")[0]
 	log.Println("The Client Header X-Real-IP: ", realIP)
 	log.Println("The Client RemoteAddr: ", remoteIP)
-	w.WriteHeader(200)
+	//w.WriteHeader(200)
 
 }
 
@@ -77,7 +78,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 func healthz(w http.ResponseWriter, r *http.Request) {
 	log.Println("get", r.RequestURI)
 	fmt.Fprintf(w, "Status OK!")
-	w.WriteHeader(200)
+	//w.WriteHeader(200)
 }
 
 // 当访问 localhost/healthz10
@@ -90,7 +91,7 @@ func healthz10(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
 	} else {
-		w.WriteHeader(200)
+		//w.WriteHeader(200)
 		w.Write([]byte("Status OK!"))
 	}
 }
@@ -108,6 +109,6 @@ func main() {
 	// register a new handler for the /metrics endpoint
 	mux.Handle("/metrics", promhttp.Handler())
 
-	http.ListenAndServe("0.0.0.0:8080", mux)
+	http.ListenAndServe("0.0.0.0:8765", mux)
 
 }
