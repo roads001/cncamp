@@ -10,5 +10,5 @@ RUN go build -o /httpserver main.go
 FROM alpine
 WORKDIR /
 COPY --from=build /httpserver /httpserver
-EXPOSE 8080
+EXPOSE 8765
 CMD [ "/httpserver" ]
