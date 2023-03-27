@@ -11,5 +11,5 @@ kubectl create -f httpserver-gwsec.yaml
 kubectl create -f httpserver-vssec.yaml
 
 # then test
-curl  -kH "Host: k8scamp.com" https://$INGRESS_IP/httpserver
-curl  -kH "Host: k8scamp.com" https://$INGRESS_IP/nginx
+curl  -kH "Host: k8scamp.com" https://$ISTIO_INGRESS_IP/httpserver
+curl  -kH "Host: k8scamp.com" https://$ISTIO_INGRESS_IP/nginx
