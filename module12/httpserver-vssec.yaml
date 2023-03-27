@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpsserver
+  namespace: cncamp
+spec:
+  gateways:
+  - httpserver-gwsec
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: "/httpserver"
+    rewrite:
+      uri: "/"
+    route:
+      - destination:
+          host: httpserver-service.cncamp.svc.cluster.local 
+          port:
+            number: 80
+  - match:
+    - uri:
+        prefix: "/nginx"
+    rewrite:
+      uri: "/"    
+    route:
+      - destination:
+          host: nginx.cncamp.svc.cluster.local
+          port:
+            number: 80
